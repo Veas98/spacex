@@ -7,9 +7,12 @@
     <div class="item5">Sec {{nextStartDate_Sec}}</div>
     <div class="item6">Next Launch: {{nextLaunch}}</div>
   </div>
+
 </template>
 
 <script>
+
+
 export default {
   data(){
     return{
@@ -24,17 +27,21 @@ export default {
   methods: {
     CalculateHowLong(){
       window.setInterval(() => {
-        let ActualDate = new Date();
-        this.nextStartDate_Day = parseInt((this.StartDate - ActualDate) / (1000 * 60 * 60 * 24));
+        const dayjs = require('dayjs')
+        dayjs().format()
+        let next_start = dayjs(this.StartDate)
+        let actual = dayjs()
+        let diff = next_start - actual;
+        this.nextStartDate_Day = dayjs(diff).date() - 1;
         //total days to run
-        this.nextStartDate_Hour = parseInt(Math.abs(this.StartDate - ActualDate) / (1000 * 60 * 60) % 24);
+        this.nextStartDate_Hour = dayjs(diff).hour() - 1;
         //total hours to run
-        this.nextStartDate_Min = parseInt(Math.abs(this.StartDate.getTime() - ActualDate.getTime()) / (1000 * 60) % 60);
+        this.nextStartDate_Min = dayjs(diff).minute();
         //total min to run
-        this.nextStartDate_Sec = parseInt(Math.abs(this.StartDate.getTime() - ActualDate.getTime()) / (1000) % 60);
+        this.nextStartDate_Sec = dayjs(diff).second();
         //total sec
       }, 1000);
-    }
+    },
   },
   mounted(){
     fetch("https://api.spacexdata.com/v5/launches/next")
@@ -54,7 +61,7 @@ export default {
 .container {
   padding: 20px;
   display: grid;
-  grid-template-columns: repeat(4, 100px);
+  grid-template-columns: repeat(4, 120px);
   grid-auto-rows: minmax(40px, auto);
   justify-content: center;
   align-self: center;
@@ -62,7 +69,6 @@ export default {
 .item1{
   grid-column: 1 / 5;
   font-size: 48px !important;
-
 }
 .item2{
   grid-area: 2 / 1 / 3 / 2;

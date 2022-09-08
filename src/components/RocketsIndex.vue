@@ -1,5 +1,4 @@
 <template>
-<div @click="rocketInfo">RocketsInfo</div>
   <div id="container_grid">
   <div class="container">
     <img :src="this.rockets.rocket1" class="rocket_image" alt="rocket">
@@ -18,44 +17,53 @@
       <p class="text_img">{{this.info.name4}}</p>
     </div>
   </div>
+<router-view></router-view>
 </template>
 
 <script>
 export default {
   data() {
     return {
+      items: [],
       info: {
         name1: '',
         name2: '',
         name3: '',
         name4: ''
       },
-      rockets:{
-       rocket1: '',
-       rocket2: '',
-       rocket3: '',
-       rocket4: ''
+      rockets: {
+        rocket1: '',
+        rocket2: '',
+        rocket3: '',
+        rocket4: ''
       },
     }
   },
   methods: {
-    rocketInfo() {
-      fetch(`https://api.spacexdata.com/v4/rockets/`)
+    async rocketInfo() {
+      await fetch(`https://api.spacexdata.com/v4/rockets/`)
           .then(response => response.json())
           .then(data => {
-            this.info.name1 = data[0].name;
-            this.info.name2 = data[1].name;
-            this.info.name3 = data[2].name;
-            this.info.name4 = data[3].name;
-            this.rockets.rocket1 = data[0].flickr_images[0];
-            this.rockets.rocket2 = data[1].flickr_images[0];
-            this.rockets.rocket3 = data[2].flickr_images[0];
-            this.rockets.rocket4 = data[3].flickr_images[0];
+            this.items = data;
             console.warn(data);
             console.warn(this.info);
           });
     },
-  }
+    itemsSort() {
+      this.info.name1 = this.items[0].name;
+      this.info.name2 = this.items[1].name;
+      this.info.name3 = this.items[2].name;
+      this.info.name4 = this.items[3].name;
+      this.rockets.rocket1 = this.items[0].flickr_images[0];
+      this.rockets.rocket2 = this.items[1].flickr_images[0];
+      this.rockets.rocket3 = this.items[2].flickr_images[0];
+      this.rockets.rocket4 = this.items[3].flickr_images[0];
+    },
+  },
+  async mounted() {
+    await this.rocketInfo();
+    this.itemsSort();
+  },
 }
 </script>
 
@@ -83,5 +91,9 @@ export default {
   top: 80%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+.container:hover{
+  transform: scale(1.1);
+  transition: transform .4s;
 }
 </style>

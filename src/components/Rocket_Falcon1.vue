@@ -1,10 +1,13 @@
 <template>
-$END$
+<div>
+  <h1> Hello Falcon1!</h1>
+  <p>xxxxx</p>
+</div>
 </template>
 
 <script>
 export default {
-name: "Falcon1"
+  name: "Rocket_Falcon1"
 }
 </script>
 

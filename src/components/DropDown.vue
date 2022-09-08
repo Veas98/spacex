@@ -1,12 +1,25 @@
 <template>
-<div class="dropdown" @click="btnDrop">
+<div
+    :class="{'dropdown-hidden' : error,
+    'dropdown-open': btnDropClick}"
+    @click="btnDrop">
   <i class="bi-list"></i>
+
+    <div @click="handleHome"
+         :class="{'drop-menu': btnDropClick,
+         'drop-menu-hide': error}">
+      Home <i class="bi-house"></i> </div>
+
+    <div @click="handleRockets(1)"
+         :class="{'drop-menu': btnDropClick,
+         'drop-menu-hide': error}">
+      Rockets <i class="bi-screwdriver"></i> </div>
+
+    <div> <a href="https://github.com/Veas98" target="_blank"
+             :class="{'drop-menu': btnDropClick,
+              'drop-menu-hide': error}">
+      GitHub <i class="bi-github"></i></a> </div>
 </div>
-  <div id="drop-menu">
-    <div @click="handleHome">Home <i class="bi-house"></i> </div>
-    <div @click="handleRockets">Rockets <i class="bi-screwdriver"></i> </div>
-    <div> <a href="https://github.com/Veas98" target="_blank">GitHub <i class="bi-github"></i></a> </div>
-  </div>
 </template>
 
 <script>
@@ -14,19 +27,21 @@ export default {
   data(){
     return{
       btnDropClick: false,
+      error: true,
     }
   },
   methods:{
     btnDrop(){
       this.btnDropClick = !this.btnDropClick;
-      if (this.btnDropClick === true) document.getElementById("drop-menu").style.display = 'inline-block';
-      else document.getElementById("drop-menu").style.display = 'none';
+      this.error = !this.error;
     },
     handleHome(){
       this.$router.push({name:'Home'});
     },
-      handleRockets(){
-        this.$router.push({name:'Rockets'});
+      handleRockets(x){
+        this.$router.push({name:'Rockets', params: {
+            id: x,
+          }});
       },
     handleGitHub(){
 
@@ -36,36 +51,43 @@ export default {
 </script>
 
 <style scoped>
-.dropdown{
+.dropdown-hidden{
   position: absolute;
   top: 36px;
   right: 36px;
-  border-radius: 50%;
   border: 1px solid wheat;
   padding: 10px;
   margin: 5px;
   cursor: pointer;
 }
+
+.dropdown-open{
+  position: absolute;
+  top: 36px;
+  right: 36px;
+  border: 1px solid wheat;
+  padding: 10px;
+  margin: 5px;
+}
 .bi-list{
   font-size: 24px;
 }
-.dropdown:hover{
+.drop-menu:hover{
   background-color: wheat !important;
   color: black;
+  cursor: pointer;
 }
-#drop-menu{
-  display: none;
-  position: absolute;
-  top: 50px;
-  right: 100px;
+.drop-menu{
+  display: block;
   font-size: 24px;
   box-sizing: border-box;
-  width: 110px;
-  height: 110px;
-  background-color: wheat;
   color: black;
   text-align: center;
-  border: 1px solid black;
+  border: 1px solid wheat;
+
+}
+.drop-menu-hide{
+  display: none;
 }
 a{
   color: black;
