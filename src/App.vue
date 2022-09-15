@@ -1,5 +1,5 @@
 <template>
-  <div @click="latestStart">Latest Start</div>
+ <!-- <div @click="latestStart">Latest Start</div> -->
   <router-view></router-view>
   <drop-down></drop-down>
 </template>

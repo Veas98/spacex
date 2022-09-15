@@ -10,7 +10,7 @@
          'drop-menu-hide': error}">
       Home <i class="bi-house"></i> </div>
 
-    <div @click="handleRockets(1)"
+    <div @click="handleRockets()"
          :class="{'drop-menu': btnDropClick,
          'drop-menu-hide': error}">
       Rockets <i class="bi-screwdriver"></i> </div>
@@ -38,10 +38,8 @@ export default {
     handleHome(){
       this.$router.push({name:'Home'});
     },
-      handleRockets(x){
-        this.$router.push({name:'Rockets', params: {
-            id: x,
-          }});
+      handleRockets(){
+        this.$router.push({name:'Rockets'});
       },
     handleGitHub(){
 
