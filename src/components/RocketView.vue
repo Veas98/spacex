@@ -2,18 +2,17 @@
 <div id="container">
   <div class="go-back"><i class="bi-arrow-left" @click="handleShowAll"></i> </div>
   <div class="grid">
-    <img :src="this.info.img" class="rocket_image" alt="rocket">
-    <div class="company"> {{info.company}}</div>
+    <img :src="this.value.flickr_images[0]" class="rocket_image" alt="rocket">
+    <div class="company"> {{value.company}}</div>
     <div class="name"> {{ displayName }}</div>
     <div class="information">
-      <p>Cost per launch: {{info.cost_p}}$ </p>
-      <p>Mass: {{info.mass}}kg</p>
-      <p>Height: {{info.height}}m</p>
+      <p>Cost per launch: {{value.cost_per_launch}}$ </p>
+      <p>Mass: {{value.mass.kg}}kg</p>
+      <p>Height: {{value.height.meters}}m</p>
     </div>
-    <div class="description"> {{info.description}}</div>
+    <div class="description"> {{value.description}}</div>
     <div class="activity"> <p>{{info.active_text}}</p></div>
-    <div class="country"> Country: {{info.country}}</div>
-
+    <div class="country"> Country: {{value.country}}</div>
   </div>
 </div>
 </template>
@@ -24,13 +23,6 @@ export default {
     return {
       items: [],
       info: {
-        cost_p: 0,
-        company: '',
-        description: '',
-        mass: 0,
-        country: '',
-        height: 0,
-        img: '',
         active: '',
         active_text: '',
       }
@@ -49,15 +41,7 @@ export default {
   },
   methods:{
     handleComposition(){
-      this.info.cost_p = this.value.cost_per_launch;
-      this.info.company = this.value.company;
-      this.info.description = this.value.description;
-      this.info.mass = this.value.mass.kg;
-      this.info.country = this.value.country;
-      this.info.height = this.value.height.meters;
-      this.info.img = this.value.flickr_images[0];
       this.info.active = this.value.active;
-      console.log(this.info);
     },
     handleActivity(){
       if (this.info.active === true){
@@ -73,7 +57,6 @@ export default {
   },
   mounted() {
    this.items = this.value;
-   console.log(this.items);
    this.handleComposition();
    this.handleActivity();
   }
