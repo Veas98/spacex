@@ -17,12 +17,12 @@
       <p class="text_img">{{this.info.name4}}</p>
     </div>
   </div>
+  <RocketView :value='items[this.choice]' v-if="!showAll" @showAll="handleShowAll"></RocketView>
 
-  <Rocket_Falcon1 :value='items[this.choice]' v-if="!showAll"></Rocket_Falcon1>
 </template>
 
 <script>
-import Rocket_Falcon1 from "@/components/Rocket_Falcon1";
+import RocketView from "@/components/RocketView";
 export default {
   data() {
     return {
@@ -57,6 +57,9 @@ export default {
       this.showAll = ! this.showAll;
       this.choice = x;
     },
+    handleShowAll(val){
+      this.showAll = val;
+    },
     itemsSort() {
       this.info.name1 = this.items[0].name;
       this.info.name2 = this.items[1].name;
@@ -69,7 +72,7 @@ export default {
     },
   },
   components:{
-    Rocket_Falcon1,
+    RocketView,
   },
   async mounted() {
     await this.rocketInfo();

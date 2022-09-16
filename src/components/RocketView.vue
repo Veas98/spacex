@@ -1,6 +1,6 @@
 <template>
 <div id="container">
-  <div class="go-back"><i class="bi-arrow-left" @click="handleBack"></i> </div>
+  <div class="go-back"><i class="bi-arrow-left" @click="handleShowAll"></i> </div>
   <div class="grid">
     <img :src="this.info.img" class="rocket_image" alt="rocket">
     <div class="company"> {{info.company}}</div>
@@ -11,7 +11,7 @@
       <p>Height: {{info.height}}m</p>
     </div>
     <div class="description"> {{info.description}}</div>
-    <div> <p>Active: </p></div>
+    <div class="activity"> <p>{{info.active_text}}</p></div>
     <div class="country"> Country: {{info.country}}</div>
 
   </div>
@@ -31,6 +31,8 @@ export default {
         country: '',
         height: 0,
         img: '',
+        active: '',
+        active_text: '',
       }
     }
   },
@@ -54,9 +56,18 @@ export default {
       this.info.country = this.value.country;
       this.info.height = this.value.height.meters;
       this.info.img = this.value.flickr_images[0];
+      this.info.active = this.value.active;
       console.log(this.info);
     },
-    handleBack(){
+    handleActivity(){
+      if (this.info.active === true){
+        this.info.active_text = 'This rocket is actually in space.';
+      }
+      else{
+        this.info.active_text = 'This rocket is actually on earth waiting for launch.';
+      }
+    },
+    handleShowAll(){
       this.$emit('showAll', true);
     }
   },
@@ -64,14 +75,12 @@ export default {
    this.items = this.value;
    console.log(this.items);
    this.handleComposition();
+   this.handleActivity();
   }
 }
 </script>
 
 <style scoped>
-body, html{
-  filter: blur(8px);
-}
 #container{
   display: flex;
   align-items: center;
@@ -80,7 +89,8 @@ body, html{
   width: 100vh;
   flex-direction: column;
   border: solid 1px wheat;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(32px);
+  color: #dcc7a1 !important;
 }
 .grid{
   display: grid;
@@ -117,5 +127,11 @@ p{
   left: 15px;
   font-size: 20px;
   cursor: pointer;
+}
+.activity{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  font-size: 18px;
 }
 </style>

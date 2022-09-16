@@ -10,7 +10,7 @@
          'drop-menu-hide': error}">
       Home <i class="bi-house"></i> </div>
 
-    <div @click="handleRockets()"
+    <div @click="handleRockets"
          :class="{'drop-menu': btnDropClick,
          'drop-menu-hide': error}">
       Rockets <i class="bi-screwdriver"></i> </div>
